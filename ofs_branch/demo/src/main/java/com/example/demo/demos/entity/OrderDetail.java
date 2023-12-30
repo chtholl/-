@@ -1,7 +1,10 @@
 package com.example.demo.demos.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,34 +24,42 @@ public class OrderDetail implements Serializable {
     /**
      * 销售订单id
      */
-    @TableId(value = "order_detail_id", type = IdType.ID_WORKER)
-    private Integer orderDetailId;
+    @TableId(value = "id")
+    private String id;
 
     /**
      * 销售订单子表id
      */
-    private Integer orderOrderId;
+    private String orderOrderId;
 
+    public OrderDetail() {
+    }
 
     /**
      * 创建时间
      */
-    private Date createTime;
+    @TableField(value = "create_Time", updateStrategy = FieldStrategy.NEVER)
+    private LocalDateTime createTime;
 
+    public OrderDetail(String orderOrderId, LocalDateTime createTime) {
 
-    public Integer getOrderDetailId() {
-        return orderDetailId;
+        this.orderOrderId = orderOrderId;
+        this.createTime = createTime;
     }
 
-    public void setOrderDetailId(Integer orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public String getOrderDetailId() {
+        return id;
     }
 
-    public Integer getOrderOrderId() {
+    public void setOrderDetailId(String id) {
+        this.id = id;
+    }
+
+    public String getOrderOrderId() {
         return orderOrderId;
     }
 
-    public void setOrderOrderId(Integer orderOrderId) {
+    public void setOrderOrderId(String orderOrderId) {
         this.orderOrderId = orderOrderId;
     }
 
@@ -56,16 +67,16 @@ public class OrderDetail implements Serializable {
     @Override
     public String toString() {
         return "OrderDetail{" +
-        "orderDetailId=" + orderDetailId +
+        "id=" + id +
         ", orderOrderId=" + orderOrderId +
         ", createTime=" + createTime +
         "}";
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 }

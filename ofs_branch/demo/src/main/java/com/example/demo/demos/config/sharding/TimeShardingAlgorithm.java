@@ -8,7 +8,9 @@ import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
@@ -87,8 +89,30 @@ public class TimeShardingAlgorithm implements PreciseShardingAlgorithm<LocalDate
 
         // 获取最大值和最小值
         Set<String> tableNameCache = logicTable.resultTableNamesCache();
-        LocalDateTime min = hasLowerBound ? valueRange.lowerEndpoint() :getLowerEndpoint(tableNameCache);
-        LocalDateTime max = hasUpperBound ? valueRange.upperEndpoint() :getUpperEndpoint(tableNameCache);
+        LocalDateTime min=null;
+        LocalDateTime max=null;
+        if (hasLowerBound){
+             Comparable localDateTime = valueRange.lowerEndpoint();
+             if (localDateTime instanceof LocalDateTime){
+                  min= (LocalDateTime) localDateTime;
+             }else if (localDateTime instanceof Timestamp){
+                  min= LocalDateTime.ofInstant(((Timestamp)localDateTime).toInstant(), ZoneId.systemDefault());
+             }
+        }else {
+            min=getLowerEndpoint(tableNameCache);
+        }
+        if (hasUpperBound){
+            Comparable localDateTime = valueRange.upperEndpoint();
+            if (localDateTime instanceof LocalDateTime){
+                max= (LocalDateTime) localDateTime;
+            }else if (localDateTime instanceof Timestamp){
+                max= LocalDateTime.ofInstant(((Timestamp)localDateTime).toInstant(), ZoneId.systemDefault());
+            }
+        }else {
+            max=getUpperEndpoint(tableNameCache);
+        }
+        //LocalDateTime min = hasLowerBound ? valueRange.lowerEndpoint() :getLowerEndpoint(tableNameCache);
+        // LocalDateTime max = hasUpperBound ? valueRange.upperEndpoint() :getUpperEndpoint(tableNameCache);
 
         // 循环计算分表范围
         Set<String> resultTableNames = new LinkedHashSet<>();

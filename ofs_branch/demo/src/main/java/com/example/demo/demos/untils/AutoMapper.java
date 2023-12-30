@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
 public class AutoMapper {
@@ -29,7 +30,8 @@ public class AutoMapper {
         //设置作者
         gc.setAuthor("chtholly");
         //设置主键id的配置
-        gc.setIdType(IdType.ID_WORKER);
+        //gc.setIdType(IdType.ID_WORKER);
+        gc.setDateType(DateType.ONLY_DATE);
 
         ag.setGlobalConfig(gc);
 

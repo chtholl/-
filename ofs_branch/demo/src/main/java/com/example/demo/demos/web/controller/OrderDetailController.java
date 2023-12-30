@@ -26,24 +26,7 @@ public class OrderDetailController {
     @Autowired
     OrderDetailService orderDetailService;
 
-    @PostMapping("/insert")
-    public Map insert(){
-       OrderDetail orderDetail=new OrderDetail();
-        orderDetail.setCreateTime(new Date());
-        orderDetail.setOrderOrderId(1);
-        orderDetail.setOrderDetailId(1);
-        boolean save = orderDetailService.save(orderDetail);
-        Map map=new HashMap();
-        if (save){
-            map.put("code",200);
-            map.put("message","success");
-        }else {
-            map.put("code",500);
-            map.put("message","error");
-        }
 
-        return map;
-    }
 
 }
 
